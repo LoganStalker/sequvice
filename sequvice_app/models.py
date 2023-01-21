@@ -45,8 +45,9 @@ class User(BaseModel):
 class Order(BaseModel):
     STATUSES = Choices("new", "in progress", "packed", "done")
 
-    name = pw.TextField(null=True)
+    description = pw.TextField(null=True)
     status = pw.CharField(null=False, default=STATUSES.new)
+    sell_point = pw.ForeignKeyField(SellPoint, related_name="orders")
 
     def __str__(self):
-        return f"<User: {self.id}>"
+        return f"<Order: {self.id}>"
