@@ -36,6 +36,7 @@ class SellPoint(BaseModel):
 class User(BaseModel):
     name = pw.TextField(null=True)
     email = pw.CharField(unique=True, null=True)
+    phone = pw.CharField(unique=True, null=False)
 
     def __str__(self):
         return f"<User: {self.id}>"
