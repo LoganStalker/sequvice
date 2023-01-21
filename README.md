@@ -1,4 +1,4 @@
-git clone 
+git clone https://github.com/LoganStalker/sequvice.git
 
 ### **MAKE VENV**
 python -m venv venv
