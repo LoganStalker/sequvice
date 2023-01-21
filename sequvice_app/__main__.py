@@ -2,7 +2,7 @@ import asyncio
 import argparse
 
 from sequvice_app import db
-from sequvice_app.models import Company, SellPoint, User, Order
+from sequvice_app.models import Company, SellPoint, Customer, Order
 
 
 def make_args_parser():

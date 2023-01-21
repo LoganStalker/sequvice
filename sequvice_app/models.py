@@ -33,7 +33,7 @@ class SellPoint(BaseModel):
 
 
 @db.register
-class User(BaseModel):
+class Customer(BaseModel):
     name = pw.TextField(null=True)
     email = pw.CharField(unique=True, null=True)
     phone = pw.CharField(unique=True, null=False)
@@ -49,6 +49,7 @@ class Order(BaseModel):
     description = pw.TextField(null=True)
     status = pw.CharField(null=False, default=STATUSES.new)
     sell_point = pw.ForeignKeyField(SellPoint, related_name="orders")
+    customer = pw.ForeignKeyField(Customer, related_name="orders")
 
     def __str__(self):
         return f"<Order: {self.id}>"
