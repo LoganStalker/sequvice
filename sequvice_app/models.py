@@ -1,11 +1,11 @@
 import datetime as dt
 import peewee as pw
 
-from sequvice_app import db
+from sequvice_app import app
 from sequvice_app.utils import Choices
 
 
-class BaseModel(db.Model):
+class BaseModel(app.db.Model):
     created = pw.DateTimeField(default=dt.datetime.utcnow)
 
     @property
@@ -13,7 +13,7 @@ class BaseModel(db.Model):
         return self.get_id()
 
 
-@db.register
+@app.db.register
 class Company(BaseModel):
     name = pw.TextField(null=False)
     email = pw.CharField(unique=True)
@@ -22,7 +22,7 @@ class Company(BaseModel):
         return f"<Company: {self.name}>"
 
 
-@db.register
+@app.db.register
 class SellPoint(BaseModel):
     name = pw.TextField(null=False)
     owner = pw.ForeignKeyField(Company, related_name="points")
@@ -32,7 +32,7 @@ class SellPoint(BaseModel):
         return f"<SellPoint #{self.id}: {self.name}, owner #{self.owner}>"
 
 
-@db.register
+@app.db.register
 class Customer(BaseModel):
     name = pw.TextField(null=True)
     email = pw.CharField(unique=True, null=True)
@@ -42,7 +42,7 @@ class Customer(BaseModel):
         return f"<User: {self.id}>"
 
 
-@db.register
+@app.db.register
 class Order(BaseModel):
     STATUSES = Choices("new", "in progress", "packed", "done")
 

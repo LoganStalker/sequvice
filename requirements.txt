@@ -1,4 +1,8 @@
-flask         == 2.2.2
-peewee        == 3.15.4
-peewee-aio    == 0.16.0
-aiosqlite     == 0.18.0
+flask          == 2.2.2
+flask-restful  == 0.3.9
+peewee         == 3.15.4
+peewee-aio     == 0.16.0
+aiosqlite      == 0.18.0
+asgiref        == 3.6.0
+marshmallow    == 3.19.0
+phonenumbers   == 8.13.5
