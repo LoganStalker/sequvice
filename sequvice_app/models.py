@@ -15,7 +15,7 @@ class BaseModel(app.db.Model):
 
 @app.db.register
 class Company(BaseModel):
-    name = pw.TextField(null=False)
+    name = pw.CharField(null=False)
     email = pw.CharField(unique=True)
 
     def __str__(self):
@@ -24,7 +24,7 @@ class Company(BaseModel):
 
 @app.db.register
 class SellPoint(BaseModel):
-    name = pw.TextField(null=False)
+    name = pw.CharField(null=False)
     owner = pw.ForeignKeyField(Company, related_name="points")
     logo = pw.CharField(max_length=256, null=True)
 
@@ -34,7 +34,7 @@ class SellPoint(BaseModel):
 
 @app.db.register
 class Customer(BaseModel):
-    name = pw.TextField(null=True)
+    name = pw.CharField(null=True)
     email = pw.CharField(unique=True, null=True)
     phone = pw.CharField(unique=True, null=False)
 
