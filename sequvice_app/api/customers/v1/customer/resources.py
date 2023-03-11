@@ -11,16 +11,15 @@ schema = CustomerRegistedData()
 
 @app.route(f"{ROOT_PATH}/customer/<int:customer_id>", methods=["GET"])
 async def get_customer(customer_id=None):
-    """Get customer by id."""
     customer = await Customer.select().where(Customer.id == customer_id).first()
     if customer:
         return schema.dump(customer)
     return {}, 404
 
 
+# curl -X POST http://127.0.0.1:5000/api/customers/v1/customer --header "Content-Type: application/json" -d '{"name": "Eugene", "phone": "+79125245259"}
 @app.route(f"{ROOT_PATH}/customer", methods=["POST"])
 async def create_customer():
-    """Create new customer if not exist."""
     data = request.get_json()
     data = schema.load(data)
 

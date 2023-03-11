@@ -10,8 +10,3 @@ init_db: $(VIRTUAL_ENV)
 .PHONY: dev
 dev: $(VIRTUAL_ENV)
 	$(VIRTUAL_ENV)/bin/python -m sequvice_app -run
-
-
-.PHONY: t
-t test: $(VIRTUAL_ENV)
-	pytest
