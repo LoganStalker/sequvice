@@ -3,3 +3,4 @@ project_notes.txt
 /.git
 /.idea
 *.sqlite
+/__pycache__
