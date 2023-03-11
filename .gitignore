@@ -3,3 +3,5 @@ project_notes.txt
 /.git
 /.idea
 *.sqlite
+/__pycache__
+/.pytest_cache
