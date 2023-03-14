@@ -31,6 +31,7 @@ async def test_customers(app, client):
     await loop.run_in_executor(None, sync_test)
 
     assert await Customer.select().count() == 1
+
     customer = await Customer.select().first()
     assert customer.id == 1
     assert customer.name == "Eugene"
