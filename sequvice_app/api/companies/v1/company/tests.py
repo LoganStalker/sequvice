@@ -5,7 +5,7 @@ from sequvice_app.models import Company
 
 
 @autoflash
-async def test_first(app, client):
+async def test_companies(app, client):
     loop = asyncio.get_running_loop()
 
     def sync_test():
@@ -16,7 +16,7 @@ async def test_first(app, client):
 
         with client.post(
             "/api/companies/v1/company",
-            json={"email": "Kus@Kus.ru", "name": "Pavel"}
+            json={"name": "Pavel", "email": "Kus@Kus.ru"}
         ) as res:
             assert res.status_code == 200
             json = res.json
@@ -26,7 +26,7 @@ async def test_first(app, client):
             assert res.status_code == 200
             json = res.json
             assert json
-            assert json == {"email": "Kus@Kus.ru", "name": "Pavel"}
+            assert json == {"name": "Pavel", "email": "Kus@Kus.ru"}
 
     await loop.run_in_executor(None, sync_test)
 

@@ -5,7 +5,7 @@ from sequvice_app.models import Customer
 
 
 @autoflash
-async def test_first(app, client):
+async def test_customers(app, client):
     loop = asyncio.get_running_loop()
 
     def sync_test():
