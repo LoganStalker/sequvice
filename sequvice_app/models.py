@@ -16,7 +16,8 @@ class BaseModel(app.db.Model):
 @app.db.register
 class Company(BaseModel):
     name = pw.CharField(null=False)
-    email = pw.CharField(unique=True)
+    email = pw.CharField(unique=True, null=False)
+    password = pw.CharField(null=True)
 
     def __str__(self):
         return f"<Company: {self.name}>"
