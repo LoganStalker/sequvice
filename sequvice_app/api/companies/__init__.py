@@ -14,10 +14,11 @@ def check_auth(func):
 
         _, token = auth_token.split(" ")
 
-        company = Company.load_from_token(token)
+        company = await Company.load_from_token(token)
         if not company:
             return "Wrong token.", 401
 
-        return await func(*args, **kwargs)
+        return await func(company, *args, **kwargs)
 
+    wrap.__name__ = func.__name__
     return wrap

@@ -1,30 +1,37 @@
+from flask import request
+
 from sequvice_app import app
-from sequvice_app.models import Company
+from sequvice_app.models import Company, SellPoint
 from sequvice_app.api.companies import check_auth
-from .schemas import CompanyRegisteredData
+from .schemas import CompanyData, SellPointData
 
 ROOT_PATH = "/api/companies/v1/company"
-schema = CompanyRegisteredData()
 
 
+@app.route(f"{ROOT_PATH}", methods=["GET"])
 @app.route(f"{ROOT_PATH}/<int:company_id>", methods=["GET"])
 @check_auth
-async def get_company(company_id=None):
-    company = await Company.select().where(Company.id == company_id).first()
+async def get_company(company, *args, **kwargs):
+    company = await Company.select().where(Company.id == company.id).first()
     if company:
-        return schema.dump(company)
+        return CompanyData().dump(company)
     return {}, 404
 
 
+@app.route(f"{ROOT_PATH}/sellpoint", methods=["POST"])
+@check_auth
+async def create_sell_point(company):
+    data = request.get_json()
+    schema = SellPointData()
+    data = schema.load(data)
 
-# @app.route(f"{ROOT_PATH}/company", methods=["POST"])
-# async def create_company():
-#     data = request.get_json()
-#     data = schema.load(data)
-#
-#     company = await Company.select().where(Company.email == data["email"]).first()
-#
-#     if not company:
-#         company = await Company.create(**data)
-#
-#     return schema.dump(company)
+    sellpoint = await SellPoint.select().where(
+        SellPoint.name == data["name"],
+        SellPoint.owner == company
+    ).first()
+
+    if not sellpoint:
+        data["owner"] = company
+        sellpoint = await SellPoint.create(**data)
+
+    return schema.dump(sellpoint)
