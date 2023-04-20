@@ -1,5 +1,6 @@
 import datetime as dt
 import peewee as pw
+import jwt
 
 from sequvice_app import app
 from sequvice_app.utils import Choices
@@ -16,10 +17,32 @@ class BaseModel(app.db.Model):
 @app.db.register
 class Company(BaseModel):
     name = pw.CharField(null=False)
-    email = pw.CharField(unique=True)
+    email = pw.CharField(unique=True, null=False)
+    password = pw.CharField(null=True)
 
     def __str__(self):
         return f"<Company: {self.name}>"
+
+    @property
+    def token(self):
+        return jwt.encode(
+            {
+                "id": self.id,
+                "email": self.email,
+                "exp": dt.datetime.utcnow() + dt.timedelta(seconds=3600*24*30),
+            },
+            app.cfg.TOKEN_SECRET,
+        )
+
+    @classmethod
+    async def load_from_token(cls, token):
+        """Load customer from token."""
+        try:
+            payload = jwt.decode(token, app.cfg.TOKEN_SECRET, algorithms=["HS256"])
+            company = await cls.select().where(cls.id == payload["id"]).first()
+            return company
+        except (jwt.InvalidTokenError, KeyError):
+            return None
 
 
 @app.db.register
@@ -40,6 +63,7 @@ class Customer(BaseModel):
 
     def __str__(self):
         return f"<User: {self.id}>"
+
 
 
 @app.db.register
