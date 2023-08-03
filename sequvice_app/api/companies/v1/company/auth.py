@@ -32,8 +32,7 @@ async def company_login():
     if not company:
         return {}, 404
 
-    password_hash = generate_password_hash(data["password"])
-    if not check_password_hash(password_hash, company.password):
+    if not check_password_hash(company.password, data["password"]):
         return {}, 401
 
     return {"token": company.token}
