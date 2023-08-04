@@ -14,5 +14,3 @@ async def get_company_for_customers(company_id=None):
     if company:
         return schema.dump(company)
     return {}, 404
-
-
