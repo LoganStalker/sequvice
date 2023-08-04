@@ -1,5 +1,3 @@
-from flask import request
-
 from sequvice_app import app
 from sequvice_app.models import Company
 from sequvice_app.api.companies.v1.company.schemas import CompanyRegisteredData

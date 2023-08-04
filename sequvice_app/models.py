@@ -41,6 +41,7 @@ class Company(BaseModel):
             payload = jwt.decode(token, app.cfg.TOKEN_SECRET, algorithms=["HS256"])
             company = await cls.select().where(cls.id == payload["id"]).first()
             return company
+        # TODO: add except for non exist company
         except (jwt.InvalidTokenError, KeyError):
             return None
 

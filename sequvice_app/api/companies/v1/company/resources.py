@@ -10,7 +10,6 @@ ROOT_PATH = "/api/companies/v1/company"
 @app.route(f"{ROOT_PATH}/<int:company_id>", methods=["GET"])
 @check_auth
 async def get_company(company: Company, *args, **kwargs):
-    company = await Company.select().where(Company.id == company.id).first()
     if company:
         return CompanyData().dump(company)
     return {}, 404
