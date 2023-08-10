@@ -51,9 +51,35 @@ class SellPoint(BaseModel):
     name = pw.CharField(null=False)
     owner = pw.ForeignKeyField(Company, related_name="points")
     logo = pw.CharField(max_length=256, null=True)
+    active = pw.BooleanField(default=True)
+    address = pw.CharField(null=False)
+    email = pw.CharField(null=False)
+    password = pw.CharField(null=False)
 
     def __str__(self):
         return f"<SellPoint #{self.id}: {self.name}, owner #{self.owner}>"
+
+    @property
+    def token(self):
+        return jwt.encode(
+            {
+                "id": self.id,
+                "email": self.email,
+                "exp": dt.datetime.utcnow() + dt.timedelta(seconds=3600 * 24 * 30),
+            },
+            app.cfg.TOKEN_SECRET,
+        )
+
+    @classmethod
+    async def load_from_token(cls, token):
+        """Load customer from token."""
+        try:
+            payload = jwt.decode(token, app.cfg.TOKEN_SECRET, algorithms=["HS256"])
+            sp = await cls.select().where(cls.id == payload["id"]).first()
+            return sp
+        # TODO: add except for non exist company
+        except (jwt.InvalidTokenError, KeyError):
+            return None
 
 
 @app.db.register
