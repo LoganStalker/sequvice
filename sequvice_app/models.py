@@ -52,9 +52,10 @@ class SellPoint(BaseModel):
     owner = pw.ForeignKeyField(Company, related_name="points")
     logo = pw.CharField(max_length=256, null=True)
     active = pw.BooleanField(default=True)
-    address = pw.CharField(null=False)
-    email = pw.CharField(null=False)
-    password = pw.CharField(null=False)
+    address = pw.CharField(null=True)
+    email = pw.CharField(null=True)
+    password = pw.CharField(null=True)
+    #TODO: fix password
 
     def __str__(self):
         return f"<SellPoint #{self.id}: {self.name}, owner #{self.owner}>"

@@ -40,10 +40,10 @@ def migrate(migrator: Migrator, database: pw.Database, *, fake=False):
     migrator.add_fields(
         'sellpoint',
 
-        password=pw.CharField(max_length=255),
+        password=pw.CharField(max_length=255, null=True),
         active=pw.BooleanField(default=True),
-        email=pw.CharField(max_length=255),
-        address=pw.CharField(max_length=255))
+        email=pw.CharField(max_length=255, null=True),
+        address=pw.CharField(max_length=255, null=True))
 
 
 def rollback(migrator: Migrator, database: pw.Database, *, fake=False):
