@@ -66,7 +66,6 @@ class Customer(BaseModel):
         return f"<User: {self.id}>"
 
 
-
 @app.db.register
 class Order(BaseModel):
     STATUSES = Choices("new", "in progress", "packed", "done")
