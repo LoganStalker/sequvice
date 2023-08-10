@@ -1,9 +1,9 @@
 from sequvice_app import app
 from sequvice_app.models import Company
-from sequvice_app.api.companies.v1.company.schemas import CompanyRegisteredData
+from .schemas import CustomersCompanyData
 
 ROOT_PATH = "/api/customers/v1"
-schema = CompanyRegisteredData()
+schema = CustomersCompanyData()
 
 
 @app.route(f"{ROOT_PATH}/company/<int:company_id>", methods=["GET"])
