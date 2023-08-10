@@ -1,9 +1,9 @@
 from sequvice_app import app
 from sequvice_app.models import Company
-from sequvice_app.api.companies.v1.company.schemas import CompanyRegisteredData
+from .schemas import CustomersCompanyData
 
 ROOT_PATH = "/api/customers/v1"
-schema = CompanyRegisteredData()
+schema = CustomersCompanyData()
 
 
 @app.route(f"{ROOT_PATH}/company/<int:company_id>", methods=["GET"])
@@ -12,3 +12,10 @@ async def get_company_for_customers(company_id=None):
     if company:
         return schema.dump(company)
     return {}, 404
+
+
+@app.route(f"{ROOT_PATH}/company", methods=["GET"])
+async def get_companies_for_customers():
+    companies = await Company.select()
+    return schema.dump(companies, many=True)
+
