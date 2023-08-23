@@ -55,6 +55,8 @@ class SellPoint(BaseModel):
     address = pw.CharField(null=True)
     email = pw.CharField(null=True)
     password = pw.CharField(null=True)
+    city = pw.CharField(null=True)
+    
     #TODO: fix password
 
     def __str__(self):
@@ -88,6 +90,7 @@ class Customer(BaseModel):
     name = pw.CharField(null=True)
     email = pw.CharField(unique=True, null=True)
     phone = pw.CharField(unique=True, null=False)
+    city = pw.CharField(null=True)
 
     def __str__(self):
         return f"<User: {self.id}>"
